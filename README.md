@@ -16,7 +16,7 @@ You have a Spring messageSource defined like this:
 The trouble is two of those entries are from properties files buried in dependent jar files. I would rather not have to configure
 those at all in the application. So here is what we can do instead using the madura-resource-loader:
 ```
-<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+<bean id="messageSource" class="nz.co.senanque.resourceloader.ResourceBundleMessageSourceExt">
 	<property name="basenames">
 		<list>
 			<value>ApplicationMessages</value>
