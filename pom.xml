@@ -45,7 +45,7 @@
 	</issueManagement>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.framework.version>3.2.6.RELEASE</spring.framework.version>
+		<spring.framework.version>4.2.3.RELEASE</spring.framework.version>
 		<logback-classic.version>1.0.1</logback-classic.version>
 		<slf4j-api.version>1.7.5</slf4j-api.version>
 	</properties>
@@ -53,7 +53,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.5</version>
+			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
