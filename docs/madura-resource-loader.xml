@@ -1,0 +1,101 @@
+<?xml-stylesheet type="text/xsl" href="MaduraHTML.xsl" ?>
+
+<doc xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://oss.sonatype.org/content/repositories/releases/nz/co/senanque/maduradocs/6.2.0/maduradocs-6.2.0.xsd">
+	<title>
+		<MainTitle>madura-resource-loader</MainTitle>
+		<SubTitle>User Guide</SubTitle>
+		<Author>roger</Author>
+		<Revision>$Revision: 1$</Revision>
+		<image>logo.jpg</image>
+		<references>
+			<reference t="Spring Framework" url="http://www.springframework.org" />
+			<reference t="madura-vaadin" url="https://github.com/RogerParkinson/madura-vaadin-support" />
+			<reference url="http://www.apache.org/licenses/LICENSE-2.0" t="Apache Licence 2.0" />
+		</references>
+	</title>
+	<body>
+	<process-log />
+	<process-references />
+	<h1 t="Loading Properties">
+	<p>Normally if you want to tell Spring <referenceLink t="Spring Framework" /> about a resource properties file you need to 
+	do something like this:</p>
+	<code><![CDATA[
+<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	<property name="basenames">
+		<list>
+			<value>ApplicationMessages</value>
+		</list>
+	</property>
+</bean>
+	]]></code>
+	<p>This will load the file <courier>ApplicationMesssages.properties</courier>
+	into Spring's message source. It is just fine when the properties file is in your application, but what if it is buried in some
+	dependent library? What if you don't even know about it? What if you don't want to <emph>have</emph>
+	to care about it?</p>
+	<p>That is the first problem we are solving here. To use our solution you replace the above with this:</p>
+	<code><![CDATA[
+<bean id="messageSource" class="nz.co.senanque.resourceloader.ResourceBundleMessageSourceExt">
+	<property name="basenames">
+		<list>
+			<value>ApplicationMessages</value>
+		</list>
+	</property>
+</bean>
+	]]></code>
+	<p>That is just a change of class. The new class does the same as the earlier plus it looks for
+	classes annotated with <courier>nz.co.senanque.resourceloader.MessageResource</courier>. These classes look like this:</p>
+	<code><![CDATA[
+@Service("validationEngine")
+@MessageResource("ValidationMessages")
+public final class ValidationEngineImpl ...
+	]]></code>
+	<p>The class is a Spring Component, so it will be loaded as Spring Bean. The <courier>MessageResource</courier>
+	annotation specifies the name of a properties file in the same package as the class, and that named
+	properties file will be loaded as if you had specified it in the XML.</p>
+	<p>You don't have to use XML, you can use Spring Configuration, and you can explicitly wire the bean if you want. As long
+	as the class annotated with <courier>MessageResource</courier> ends up as a Spring bean.</p>
+	</h1>
+	<h1 t="Loading Version Information">
+	<p>This part is used to help expose the version number of the library from the manifest file of
+	the jar, specifically the version number. It defines a simple class that gets extended in each library that wants to
+	expose its version.</p>
+	<p>There is very little to it here because most of the work is done elsewhere such as in madura-vaadin <referenceLink t="madura-vaadin" />. 
+	To add versioning to your own library you only need a class that looks like this:</p>
+	<code><![CDATA[
+@Component("MaduraObjectVersion") // use your library name here
+public class LocalVersion extends nz.co.senanque.version.Version {
+
+	public LocalVersion() {
+	}
+	public String getVersion() {
+		return this.getClass().getPackage().getImplementationVersion();
+	}
+}	
+	]]></code>
+	<p>Make sure your project updates the manifest with the implementation version, and make sure
+	Spring scans the package you put this class into.</p>
+	<p>That's it. The madura-vaadin mechanism will find your library and add it to the ones it
+	gathers when it wants to display versions, such as in an about box.</p>
+	</h1>
+	<a1 t="Licence">
+	<p>The code specific to Madura-VaadinSupport is licensed under the Apache License 2.0 <referenceLink t="Apache Licence 2.0" />.</p>
+	<p>Most of the dependent products have compatable licenses detailed in their pom files.</p>
+	</a1>
+	<a1 t="Release Notes">
+		<table width="12cm">
+			<tw>12cm</tw>
+			<tr>
+				<th>1.1.0</th>
+			</tr>
+			<tr>
+				<td>Added the versioning mechanism.</td>
+			</tr>
+			<th>1.0.0</th>
+			<tr>
+				<td>Intial version.</td>
+			</tr>
+		</table>
+	</a1>
+	</body>
+</doc>
