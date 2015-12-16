@@ -77,6 +77,19 @@ public class LocalVersion extends nz.co.senanque.version.Version {
 	Spring scans the package you put this class into.</p>
 	<p>That's it. The madura-vaadin mechanism will find your library and add it to the ones it
 	gathers when it wants to display versions, such as in an about box.</p>
+	<p>The extract code, if you need to write it yourself, should look something like this:</p>
+	<code><![CDATA[
+List<String> versions = new ArrayList<>();
+Map<String, Version> versionMap = m_beanFactory.getBeansOfType(nz.co.senanque.version.Version.class);
+for (Map.Entry<String, Version> entry: versionMap.entrySet()) {
+	String v = entry.getKey()+": ";
+	String v1 = entry.getValue().getVersion();
+	if (v1 != null) {
+		v=v+v1;
+	}
+	versions.add(v);
+}
+	]]></code>
 	</h1>
 	<a1 t="Licence">
 	<p>The code specific to Madura-VaadinSupport is licensed under the Apache License 2.0 <referenceLink t="Apache Licence 2.0" />.</p>
