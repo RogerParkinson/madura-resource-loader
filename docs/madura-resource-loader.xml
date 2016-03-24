@@ -99,6 +99,12 @@ for (Map.Entry<String, Version> entry: versionMap.entrySet()) {
 		<table width="12cm">
 			<tw>12cm</tw>
 			<tr>
+				<th>1.1.1</th>
+			</tr>
+			<tr>
+				<td>updated slf4j version.</td>
+			</tr>
+			<tr>
 				<th>1.1.0</th>
 			</tr>
 			<tr>
