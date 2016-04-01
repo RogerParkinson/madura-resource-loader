@@ -99,6 +99,12 @@ for (Map.Entry<String, Version> entry: versionMap.entrySet()) {
 		<table width="12cm">
 			<tw>12cm</tw>
 			<tr>
+				<th>1.1.2</th>
+			</tr>
+			<tr>
+				<td>updated maduradocs version.</td>
+			</tr>
+			<tr>
 				<th>1.1.1</th>
 			</tr>
 			<tr>
