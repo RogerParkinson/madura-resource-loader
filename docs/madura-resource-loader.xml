@@ -55,6 +55,45 @@ public final class ValidationEngineImpl ...
 	properties file will be loaded as if you had specified it in the XML.</p>
 	<p>You don't have to use XML, you can use Spring Configuration, and you can explicitly wire the bean if you want. As long
 	as the class annotated with <courier>MessageResource</courier> ends up as a Spring bean.</p>
+	<p>However there is a small catch if you use Spring Configuration. Message sources are often specified in a chain like this:</p>
+	<code><![CDATA[
+<bean id="messageSource" class="nz.co.senanque.localemanagement.XMLMessageSource">
+	<property name="resource" value="classpath:/Messages.xml"/>
+	<property name="parentMessageSource">
+		<bean class="nz.co.senanque.resourceloader.ResourceBundleMessageSourceExt">
+			<property name="basenames">
+				<list>
+					<value>Messages</value>
+				</list>
+			</property>
+		</bean>
+	</property>
+</bean>
+	]]></code>
+	<p>In this case there is a customised message source which uses an XML file which falls back to the <courier>ResourceBundleMessageSourceExt</courier>
+	class. This XML example will work fine but if you convert it into Spring Configuration you do something like this:</p>
+	<code><![CDATA[
+@Bean
+public MessageSource messageSource() {
+	ResourceBundleMessageSource messageSource = new ResourceBundleMessageSourceExt();
+	messageSource.setBasenames("Messages");
+	return messageSource;
+}
+	]]></code>
+	<p>And that will work just fine, but it doesn't have the customised message source. Let's add that:</p>
+	<code><![CDATA[
+@Bean
+public MessageSource messageSource() {
+	MessageSource ret = new XMLMessageSource();
+	ret.setResource(new ClasspathResource("/Messages.xml"));
+	ResourceBundleMessageSource messageSource = new ResourceBundleMessageSourceExt();
+	messageSource.setBasenames("Messages");
+	ret.setParentMessageSource(messageSource);
+	return messageSource;
+}
+	]]></code>
+	<p>This does <emph>not</emph> work. Why not? Because the <courier>ResourceBundleMessageSourceExt</courier> is no longer a Spring bean, 
+	so Spring does not know to call its <courier>@PostConstruct</courier> method, and it needs that to work.</p>
 	</h1>
 	<h1 t="Loading Version Information">
 	<p>This part is used to help expose the version number of the library from the manifest file of
@@ -98,6 +137,12 @@ for (Map.Entry<String, Version> entry: versionMap.entrySet()) {
 	<a1 t="Release Notes">
 		<table width="12cm">
 			<tw>12cm</tw>
+			<tr>
+				<th>1.1.3</th>
+			</tr>
+			<tr>
+				<td>Updated docs to cover limitations of Spring Config.</td>
+			</tr>
 			<tr>
 				<th>1.1.2</th>
 			</tr>

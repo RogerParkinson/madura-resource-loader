@@ -41,5 +41,6 @@ You do need to be using the component scanner eg:
 <context:component-scan base-package="nz.co.senanque.resourceloader, nz.co.senanque.login" />
 
 ```
-Use of parent message sources is supported in the same way it is for ResourceBundleMessageSource, as is everything else because
-ResourceBundleMessageSourceExt is just an extension of ResourceBundleMessageSource.
+Use of parent message sources is supported in the same way it is for ResourceBundleMessageSource, as is everything else because ResourceBundleMessageSourceExt is just an extension of ResourceBundleMessageSource.
+
+This works best when configured with XML as shown. You can configure it using Java Config but not if you are using it in a chain because the @PostConstruct method will not be called at the right time unless it is at the top of the chain.
