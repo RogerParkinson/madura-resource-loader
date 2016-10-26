@@ -138,10 +138,13 @@ for (Map.Entry<String, Version> entry: versionMap.entrySet()) {
 		<table width="12cm">
 			<tw>12cm</tw>
 			<tr>
-				<th>1.1.3</th>
+				<th>1.2.0</th>
 			</tr>
 			<tr>
 				<td>Updated docs to cover limitations of Spring Config.</td>
+			</tr>
+			<tr>
+				<td>Rebuilt with Java 1.8.</td>
 			</tr>
 			<tr>
 				<th>1.1.2</th>
