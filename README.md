@@ -1,4 +1,9 @@
-# madura-resource-loader
+madura-resource-loader
+==
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/nz.co.senanque/madura-resource-loader/badge.svg)](http://mvnrepository.com/artifact/nz.co.senanque/madura-resource-loader)
+
+[![build_status](https://travis-ci.org/RogerParkinson/madura-resource-loader.svg?branch=master)](https://travis-ci.org/RogerParkinson/madura-resource-loader)
 
 You have a Spring messageSource defined like this:
 

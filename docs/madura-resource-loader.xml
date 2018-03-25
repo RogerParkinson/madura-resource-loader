@@ -177,6 +177,12 @@ for (Map.Entry<String, Version> entry: versionMap.entrySet()) {
 		<table width="12cm">
 			<tw>12cm</tw>
 			<tr>
+				<th>1.4.0</th>
+			</tr>
+			<tr>
+				<td>Travis build.</td>
+			</tr>
+			<tr>
 				<th>1.3.0</th>
 			</tr>
 			<tr>
